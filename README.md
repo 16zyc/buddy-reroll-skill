@@ -6,6 +6,7 @@ Reset Claude Code `/buddy` local state and re-hatch with a chosen seed.
 
 - Do not run `npx ...` directly inside the Claude chat input box.
 - Run install/reroll in your system terminal (zsh/PowerShell/CMD) to avoid Claude usage/login limits.
+- `/buddy-reroll` is not a built-in Claude slash command. If typed in Claude chat, it is treated as a normal model request and can fail due to account usage limits.
 
 ## Install (Git clone, ex-skill style)
 
