@@ -7,16 +7,22 @@ description: Reset local Claude Code /buddy companion state and re-hatch with a 
 
 Reset local companion state safely and quickly.
 
-Run the bundled script:
-
-```bash
-python3 scripts/reroll_buddy.py --seed user-2224
-```
-
-Or use a random seed:
+Default mode is random:
 
 ```bash
 python3 scripts/reroll_buddy.py --random
+```
+
+Run the bundled script:
+
+```bash
+python3 scripts/reroll_buddy.py --random
+```
+
+Use a specific seed only when user explicitly asks for one:
+
+```bash
+python3 scripts/reroll_buddy.py --seed user-378
 ```
 
 ## Workflow
@@ -29,22 +35,22 @@ python3 scripts/reroll_buddy.py --random
 
 ## Commands
 
-Use a specific seed:
-
-```bash
-python3 scripts/reroll_buddy.py --seed user-2224
-```
-
-Use a random seed:
+Default random reroll (recommended):
 
 ```bash
 python3 scripts/reroll_buddy.py --random
 ```
 
+Use a specific seed:
+
+```bash
+python3 scripts/reroll_buddy.py --seed user-378
+```
+
 Inspect without writing:
 
 ```bash
-python3 scripts/reroll_buddy.py --seed user-2224 --dry-run
+python3 scripts/reroll_buddy.py --random --dry-run
 ```
 
 ## Notes
@@ -52,3 +58,4 @@ python3 scripts/reroll_buddy.py --seed user-2224 --dry-run
 - This skill only edits local files under `~/.claude`.
 - If the companion still does not change, run `/buddy` again in a fresh Claude session.
 - Use backup files in `~/.claude/backups` to restore previous state.
+- If user does not provide a seed, always run with `--random` and never hardcode `user-2224`.

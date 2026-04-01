@@ -72,5 +72,5 @@ EOF
 chmod +x "${BIN_DIR}/buddy-reroll"
 
 echo "Try:"
-echo "  python3 \"$HOME/.claude/skills/${SKILL_NAME}/scripts/reroll_buddy.py\" --seed user-2224"
-echo "  buddy-reroll --seed user-2224"
+echo "  python3 \"$HOME/.claude/skills/${SKILL_NAME}/scripts/reroll_buddy.py\" --random"
+echo "  buddy-reroll --random"

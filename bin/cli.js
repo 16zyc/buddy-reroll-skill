@@ -73,7 +73,7 @@ function printHelp() {
   console.log("  npx buddy-reroll-skill install");
   console.log("");
   console.log("Install and reroll with seed:");
-  console.log("  npx buddy-reroll-skill reroll --seed user-2224");
+  console.log("  npx buddy-reroll-skill reroll --seed user-378");
   console.log("");
   console.log("Install and reroll random:");
   console.log("  npx buddy-reroll-skill reroll --random");

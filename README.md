@@ -1,6 +1,6 @@
 # buddy-reroll-skill
 
-Reset Claude Code `/buddy` local state and re-hatch with a chosen seed.
+Reset Claude Code `/buddy` local state and re-hatch with a random seed by default (or a chosen seed).
 
 ## Important
 
@@ -31,13 +31,13 @@ Install skill files only:
 
 ```bash
 npx buddy-reroll-skill install
-npx buddy-reroll-skill reroll --seed user-2224
+npx buddy-reroll-skill reroll --random
 ```
 
 Install and reroll with a fixed seed:
 
 ```bash
-npx buddy-reroll-skill reroll --seed user-2224
+npx buddy-reroll-skill reroll --seed user-378
 ```
 
 Install and reroll with random seed:
@@ -49,18 +49,18 @@ npx buddy-reroll-skill reroll --random
 Install then use short command:
 
 ```bash
-buddy-reroll --seed user-2224
+buddy-reroll --random
 ```
 
 Windows:
 
 ```powershell
-buddy-reroll --seed user-2224
+buddy-reroll --random
 ```
 
 ## Direct script usage
 
 ```bash
-python3 ~/.claude/skills/buddy-reroll/scripts/reroll_buddy.py --seed user-2224
 python3 ~/.claude/skills/buddy-reroll/scripts/reroll_buddy.py --random
+python3 ~/.claude/skills/buddy-reroll/scripts/reroll_buddy.py --seed user-378
 ```

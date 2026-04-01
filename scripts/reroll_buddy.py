@@ -12,10 +12,9 @@ from pathlib import Path
 def make_seed(random_mode: bool, explicit_seed: str | None) -> str:
     if explicit_seed:
         return explicit_seed
-    if random_mode:
+    if random_mode or not explicit_seed:
         suffix = "".join(random.choices(string.digits, k=8))
         return f"user-{suffix}"
-    raise ValueError("Provide --seed or --random.")
 
 
 def backup_file(src: Path, backup_dir: Path) -> Path:
@@ -62,10 +61,10 @@ def locate_claude_paths() -> tuple[Path, Path, Path]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Reset local Claude /buddy companion state and set seed."
+        description="Reset local Claude /buddy companion state and set seed (defaults to random)."
     )
-    parser.add_argument("--seed", help="Seed string, e.g. user-2224")
-    parser.add_argument("--random", action="store_true", help="Generate random seed")
+    parser.add_argument("--seed", help="Seed string, e.g. user-378")
+    parser.add_argument("--random", action="store_true", help="Generate random seed (default behavior)")
     parser.add_argument("--dry-run", action="store_true", help="Preview changes only")
     args = parser.parse_args()
 
