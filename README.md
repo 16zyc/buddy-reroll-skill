@@ -1,89 +1,46 @@
 # buddy-reroll-skill
 
-Reset Claude Code `/buddy` local state and re-hatch with a random seed by default, a chosen seed, or a target species/rarity search.
+快速重置 Claude `/buddy`。
 
-## Important
+## 能做什么
 
-- Do not run `npx ...` directly inside the Claude chat input box.
-- Run install/reroll in your system terminal (zsh/PowerShell/CMD) to avoid Claude usage/login limits.
-- `/buddy-reroll` is not a built-in Claude slash command. If typed in Claude chat, it is treated as a normal model request and can fail due to account usage limits.
+- 默认随机重置（清理旧 companion，重新孵化）
+- 指定 seed 重置
+- 按物种/稀有度自动找 seed（例如 `dragon + legendary`）
+- 默认执行“完全重置”（会清理 account UUID 覆盖）
 
-## Install (Git clone, ex-skill style)
+## 下载与安装
 
-Project-level:
+### 方式 1：一条命令安装（推荐）
 
 ```bash
-mkdir -p .claude/skills
-git clone https://github.com/16zyc/buddy-reroll-skill .claude/skills/buddy-reroll
-bash .claude/skills/buddy-reroll/install.sh
+npx -y github:16zyc/buddy-reroll-skill install
 ```
 
-Global:
+### 方式 2：Git 下载后安装
 
 ```bash
 git clone https://github.com/16zyc/buddy-reroll-skill ~/.claude/skills/buddy-reroll
 bash ~/.claude/skills/buddy-reroll/install.sh
 ```
 
-## Install / run with npm (npx)
-
-Install skill files only:
-
-```bash
-npx buddy-reroll-skill install
-```
-
-Install and reroll (default random):
-
-```bash
-npx buddy-reroll-skill reroll
-```
-
-Install and reroll with a fixed seed:
-
-```bash
-npx buddy-reroll-skill reroll --seed 0000693
-```
-
-Install and reroll with random seed:
-
-```bash
-npx buddy-reroll-skill reroll --random
-```
-
-Install and reroll by target:
-
-```bash
-npx buddy-reroll-skill reroll --target dragon --rarity legendary
-```
-
-By default, account UUID will be cleared so seed fully controls species.
-If you want to keep account UUID, pass `--keep-account-uuid`:
-
-```bash
-npx buddy-reroll-skill reroll --seed 0000693 --keep-account-uuid
-```
-
-Install then use short command:
-
-```bash
-buddy-reroll
-```
-
 Windows:
 
 ```powershell
-buddy-reroll --random
+git clone https://github.com/16zyc/buddy-reroll-skill $HOME/.claude/skills/buddy-reroll
+powershell -ExecutionPolicy Bypass -File $HOME/.claude/skills/buddy-reroll/install.ps1 -Force
 ```
 
-## Direct script usage
+## 常用命令
 
 ```bash
-python3 ~/.claude/skills/buddy-reroll/scripts/reroll_buddy.py --random
-python3 ~/.claude/skills/buddy-reroll/scripts/reroll_buddy.py --seed 0000693
-python3 ~/.claude/skills/buddy-reroll/scripts/reroll_buddy.py --target dragon --rarity legendary
-python3 ~/.claude/skills/buddy-reroll/scripts/reroll_buddy.py --seed 0000693 --keep-account-uuid
-python3 ~/.claude/skills/buddy-reroll/scripts/reroll_buddy.py --seed 0000693 --verbose
+buddy-reroll
+buddy-reroll --seed 0000693
+buddy-reroll --target dragon --rarity legendary
 ```
 
-Default output is concise. Use `--verbose` to print seed/species/rarity/debug details.
+调试详细输出（可选）：
+
+```bash
+buddy-reroll --verbose
+```
