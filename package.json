@@ -1,0 +1,16 @@
+{
+  "name": "buddy-reroll-skill",
+  "version": "0.1.0",
+  "description": "Install and run the Claude/Codex buddy-reroll skill.",
+  "license": "MIT",
+  "bin": {
+    "buddy-reroll-skill": "bin/cli.js"
+  },
+  "files": [
+    "SKILL.md",
+    "agents",
+    "scripts",
+    "install.sh",
+    "bin"
+  ]
+}
