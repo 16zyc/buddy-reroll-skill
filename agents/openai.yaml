@@ -1,0 +1,4 @@
+interface:
+  display_name: "Buddy Reroll"
+  short_description: "Reset local /buddy seed and re-hatch companion."
+  default_prompt: "Reset my local /buddy companion and optionally set a seed before rehatching."
