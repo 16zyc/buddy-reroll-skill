@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import os
 import random
 import string
 import time
@@ -25,6 +26,40 @@ def backup_file(src: Path, backup_dir: Path) -> Path:
     return dst
 
 
+def home_candidates() -> list[Path]:
+    cands: list[Path] = []
+    for key in ("HOME", "USERPROFILE"):
+        raw = os.environ.get(key, "").strip()
+        if raw:
+            cands.append(Path(raw))
+    cands.append(Path.home())
+
+    uniq: list[Path] = []
+    seen: set[str] = set()
+    for p in cands:
+        k = str(p.resolve()) if p.exists() else str(p)
+        if k not in seen:
+            seen.add(k)
+            uniq.append(p)
+    return uniq
+
+
+def locate_claude_paths() -> tuple[Path, Path, Path]:
+    candidates: list[tuple[Path, Path, Path]] = []
+    for home in home_candidates():
+        claude_dir = home / ".claude"
+        candidates.append(
+            (home / ".claude.json", claude_dir / "settings.json", claude_dir / "backups")
+        )
+
+    for global_file, settings_file, backups_dir in candidates:
+        if global_file.exists() and settings_file.exists():
+            return global_file, settings_file, backups_dir
+
+    first_global, first_settings, first_backups = candidates[0]
+    return first_global, first_settings, first_backups
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="Reset local Claude /buddy companion state and set seed."
@@ -37,11 +72,7 @@ def main() -> int:
     seed = make_seed(args.random, args.seed)
     seed_hash = hashlib.sha256(seed.encode("utf-8")).hexdigest()
 
-    home = Path.home()
-    claude_dir = home / ".claude"
-    global_file = home / ".claude.json"
-    settings_file = claude_dir / "settings.json"
-    backups_dir = claude_dir / "backups"
+    global_file, settings_file, backups_dir = locate_claude_paths()
 
     if not global_file.exists():
         raise FileNotFoundError(f"Missing file: {global_file}")
@@ -76,6 +107,8 @@ def main() -> int:
 
     print(f"Seed: {seed}")
     print(f"SHA256(seed): {seed_hash}")
+    print(f"Global file: {global_file}")
+    print(f"Settings file: {settings_file}")
     print("Next:")
     print("1) Start a fresh Claude session")
     print("2) Run /buddy")

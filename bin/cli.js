@@ -4,8 +4,9 @@ const { spawnSync } = require("child_process");
 
 const repoRoot = path.resolve(__dirname, "..");
 const installScript = path.join(repoRoot, "install.sh");
+const installScriptPs1 = path.join(repoRoot, "install.ps1");
 const targetScript = path.join(
-  process.env.HOME || "",
+  process.env.USERPROFILE || process.env.HOME || "",
   ".claude",
   "skills",
   "buddy-reroll",
@@ -18,9 +19,40 @@ function run(cmd, args, opts = {}) {
     stdio: "inherit",
     ...opts,
   });
+  if (ret.error) {
+    process.exit(1);
+  }
   if (ret.status !== 0) {
     process.exit(ret.status || 1);
   }
+}
+
+function runWithStatus(cmd, args, opts = {}) {
+  const ret = spawnSync(cmd, args, {
+    stdio: "inherit",
+    ...opts,
+  });
+  if (ret.error) return false;
+  return ret.status === 0;
+}
+
+function isWindows() {
+  return process.platform === "win32";
+}
+
+function runInstall() {
+  if (isWindows()) {
+    run("powershell", [
+      "-NoProfile",
+      "-ExecutionPolicy",
+      "Bypass",
+      "-File",
+      installScriptPs1,
+      "-Force",
+    ], { cwd: repoRoot });
+    return;
+  }
+  run("bash", [installScript], { cwd: repoRoot });
 }
 
 function hasArg(name) {
@@ -55,12 +87,12 @@ if (!cmd || cmd === "--help" || cmd === "-h") {
 }
 
 if (cmd === "install") {
-  run("bash", [installScript], { cwd: repoRoot });
+  runInstall();
   process.exit(0);
 }
 
 if (cmd === "reroll") {
-  run("bash", [installScript], { cwd: repoRoot });
+  runInstall();
 
   const args = [];
   const seed = argValue("--seed");
@@ -75,6 +107,13 @@ if (cmd === "reroll") {
     args.push("--dry-run");
   }
 
+  if (isWindows()) {
+    if (runWithStatus("py", [targetScript, ...args])) {
+      process.exit(0);
+    }
+    run("python", [targetScript, ...args]);
+    process.exit(0);
+  }
   run("python3", [targetScript, ...args]);
   process.exit(0);
 }

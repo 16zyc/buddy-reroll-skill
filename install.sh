@@ -8,6 +8,7 @@ FORCE="${FORCE:-0}"
 TARGETS=()
 TARGETS+=("$HOME/.claude/skills/${SKILL_NAME}")
 TARGETS+=("${CODEX_HOME:-$HOME/.codex}/skills/${SKILL_NAME}")
+BIN_DIR="$HOME/.local/bin"
 
 sync_to_target() {
   local target_dir="$1"
@@ -17,15 +18,16 @@ sync_to_target() {
   mkdir -p "${target_root}"
 
   if [[ -d "${target_dir}" ]]; then
-    if [[ "${FORCE}" != "1" ]]; then
+    if [[ "${FORCE}" == "1" ]]; then
+      rm -rf "${target_dir}"
+      mkdir -p "${target_dir}"
+    else
       echo "Target already exists: ${target_dir}"
-      echo "Use FORCE=1 to overwrite."
-      return 1
+      echo "Update in place (use FORCE=1 for clean reinstall)."
     fi
-    rm -rf "${target_dir}"
+  else
+    mkdir -p "${target_dir}"
   fi
-
-  mkdir -p "${target_dir}"
 
   if command -v rsync >/dev/null 2>&1; then
     rsync -a --delete \
@@ -60,5 +62,15 @@ if [[ "${OK_COUNT}" -eq 0 ]]; then
 fi
 
 echo "Install complete (${OK_COUNT} target(s))."
+
+mkdir -p "${BIN_DIR}"
+cat > "${BIN_DIR}/buddy-reroll" <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+python3 "$HOME/.claude/skills/buddy-reroll/scripts/reroll_buddy.py" "$@"
+EOF
+chmod +x "${BIN_DIR}/buddy-reroll"
+
 echo "Try:"
 echo "  python3 \"$HOME/.claude/skills/${SKILL_NAME}/scripts/reroll_buddy.py\" --seed user-2224"
+echo "  buddy-reroll --seed user-2224"

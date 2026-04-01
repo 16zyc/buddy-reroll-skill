@@ -2,6 +2,11 @@
 
 Reset Claude Code `/buddy` local state and re-hatch with a chosen seed.
 
+## Important
+
+- Do not run `npx ...` directly inside the Claude chat input box.
+- Run install/reroll in your system terminal (zsh/PowerShell/CMD) to avoid Claude usage/login limits.
+
 ## Install (Git clone, ex-skill style)
 
 Project-level:
@@ -25,6 +30,7 @@ Install skill files only:
 
 ```bash
 npx buddy-reroll-skill install
+npx buddy-reroll-skill reroll --seed user-2224
 ```
 
 Install and reroll with a fixed seed:
@@ -37,6 +43,18 @@ Install and reroll with random seed:
 
 ```bash
 npx buddy-reroll-skill reroll --random
+```
+
+Install then use short command:
+
+```bash
+buddy-reroll --seed user-2224
+```
+
+Windows:
+
+```powershell
+buddy-reroll --seed user-2224
 ```
 
 ## Direct script usage

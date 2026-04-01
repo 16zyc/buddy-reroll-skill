@@ -11,6 +11,7 @@
     "agents",
     "scripts",
     "install.sh",
+    "install.ps1",
     "bin"
   ]
 }
