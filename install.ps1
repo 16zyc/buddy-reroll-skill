@@ -81,6 +81,6 @@ python "%USERPROFILE%\.claude\skills\buddy-reroll\scripts\reroll_buddy.py" %*
 Set-Content -Path (Join-Path $BinDir "buddy-reroll.cmd") -Value $launcher -Encoding ASCII
 
 Write-Host "Try:"
-Write-Host "  python `"$HOME\.claude\skills\$SkillName\scripts\reroll_buddy.py`" --random"
-Write-Host "  buddy-reroll --random"
+Write-Host "  python `"$HOME\.claude\skills\$SkillName\scripts\reroll_buddy.py`""
+Write-Host "  buddy-reroll"
 Write-Host "If buddy-reroll is not found, add $HOME\bin to PATH."

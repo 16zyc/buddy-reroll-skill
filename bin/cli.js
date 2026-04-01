@@ -72,11 +72,17 @@ function printHelp() {
   console.log("Install skill only:");
   console.log("  npx buddy-reroll-skill install");
   console.log("");
-  console.log("Install and reroll with seed:");
-  console.log("  npx buddy-reroll-skill reroll --seed user-378");
+  console.log("Install and reroll (default random):");
+  console.log("  npx buddy-reroll-skill reroll");
   console.log("");
-  console.log("Install and reroll random:");
-  console.log("  npx buddy-reroll-skill reroll --random");
+  console.log("Install and reroll with seed:");
+  console.log("  npx buddy-reroll-skill reroll --seed 0000693");
+  console.log("");
+  console.log("Install and reroll by target:");
+  console.log("  npx buddy-reroll-skill reroll --target dragon --rarity legendary");
+  console.log("");
+  console.log("Keep account UUID (optional):");
+  console.log("  npx buddy-reroll-skill reroll --seed 0000693 --keep-account-uuid");
 }
 
 const cmd = process.argv[2];
@@ -96,15 +102,34 @@ if (cmd === "reroll") {
 
   const args = [];
   const seed = argValue("--seed");
+  const target = argValue("--target");
+  const rarity = argValue("--rarity");
+  const maxAttempts = argValue("--max-attempts");
+  const clearAccountUuid = hasArg("--clear-account-uuid");
+  const keepAccountUuid = hasArg("--keep-account-uuid");
+  const verbose = hasArg("--verbose");
   if (seed) {
     args.push("--seed", seed);
+  } else if (target) {
+    args.push("--target", target);
+    if (rarity) args.push("--rarity", rarity);
+    if (maxAttempts) args.push("--max-attempts", maxAttempts);
   } else if (hasArg("--random")) {
     args.push("--random");
   } else {
-    args.push("--random");
+    // Script defaults to random when no seed/target is provided.
   }
   if (hasArg("--dry-run")) {
     args.push("--dry-run");
+  }
+  if (clearAccountUuid) {
+    args.push("--clear-account-uuid");
+  }
+  if (keepAccountUuid) {
+    args.push("--keep-account-uuid");
+  }
+  if (verbose) {
+    args.push("--verbose");
   }
 
   if (isWindows()) {

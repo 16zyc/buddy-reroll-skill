@@ -1,6 +1,6 @@
 # buddy-reroll-skill
 
-Reset Claude Code `/buddy` local state and re-hatch with a random seed by default (or a chosen seed).
+Reset Claude Code `/buddy` local state and re-hatch with a random seed by default, a chosen seed, or a target species/rarity search.
 
 ## Important
 
@@ -31,13 +31,18 @@ Install skill files only:
 
 ```bash
 npx buddy-reroll-skill install
-npx buddy-reroll-skill reroll --random
+```
+
+Install and reroll (default random):
+
+```bash
+npx buddy-reroll-skill reroll
 ```
 
 Install and reroll with a fixed seed:
 
 ```bash
-npx buddy-reroll-skill reroll --seed user-378
+npx buddy-reroll-skill reroll --seed 0000693
 ```
 
 Install and reroll with random seed:
@@ -46,10 +51,23 @@ Install and reroll with random seed:
 npx buddy-reroll-skill reroll --random
 ```
 
+Install and reroll by target:
+
+```bash
+npx buddy-reroll-skill reroll --target dragon --rarity legendary
+```
+
+By default, account UUID will be cleared so seed fully controls species.
+If you want to keep account UUID, pass `--keep-account-uuid`:
+
+```bash
+npx buddy-reroll-skill reroll --seed 0000693 --keep-account-uuid
+```
+
 Install then use short command:
 
 ```bash
-buddy-reroll --random
+buddy-reroll
 ```
 
 Windows:
@@ -62,5 +80,10 @@ buddy-reroll --random
 
 ```bash
 python3 ~/.claude/skills/buddy-reroll/scripts/reroll_buddy.py --random
-python3 ~/.claude/skills/buddy-reroll/scripts/reroll_buddy.py --seed user-378
+python3 ~/.claude/skills/buddy-reroll/scripts/reroll_buddy.py --seed 0000693
+python3 ~/.claude/skills/buddy-reroll/scripts/reroll_buddy.py --target dragon --rarity legendary
+python3 ~/.claude/skills/buddy-reroll/scripts/reroll_buddy.py --seed 0000693 --keep-account-uuid
+python3 ~/.claude/skills/buddy-reroll/scripts/reroll_buddy.py --seed 0000693 --verbose
 ```
+
+Default output is concise. Use `--verbose` to print seed/species/rarity/debug details.
